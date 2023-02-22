@@ -1,5 +1,173 @@
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding: 0;
-    // background-color: #000;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    user-select: none;
+}
+
+#preloader {
+    position: fixed;
+    flex-direction: column;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: #212121;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.loader {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    left: -32px;
+    border-radius: 50%;
+    color: #fff;
+    background: currentColor;
+    box-shadow: 32px 0, -32px 0, 64px 0;
+}
+
+.loader::after {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 10px;
+    background: #FF3D00;
+    animation: move 2s linear infinite alternate;
+}
+
+@keyframes move {
+
+    0%,
+    5% {
+        left: -32px;
+        width: 16px;
+    }
+
+    15%,
+    20% {
+        left: -32px;
+        width: 48px;
+    }
+
+    30%,
+    35% {
+        left: 0px;
+        width: 16px;
+    }
+
+    45%,
+    50% {
+        left: 0px;
+        width: 48px;
+    }
+
+    60%,
+    65% {
+        left: 32px;
+        width: 16px;
+    }
+
+    75%,
+    80% {
+        left: 32px;
+        width: 48px;
+    }
+
+    95%,
+    100% {
+        left: 64px;
+        width: 16px;
+    }
+}
+
+.bk-coming-soon {
+    position: fixed;
+    flex-direction: column;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: #212121;
+    align-items: center;
+    justify-content: center;
+}
+
+.bk-logo {
+    position: absolute;
+    display: block;
+    width: 150px;
+    height: 150px;
+    background: #212121;
+    border: 2px solid white;
+    border-radius: 20px;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: border .3s ease;
+}
+
+.bk-content {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 60%;
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 20px;
+    padding: 50px 50px 10px;
+    transition: border .3s ease;
+
+    &:hover {
+        border-color: #FF3D00;
+
+        .bk-logo {
+            border-color: #FF3D00;
+        }
+
+        &::before,
+        &::after {
+            opacity: 1;
+        }
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        width: 20%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        border-radius: 20px 0 0 20px;
+        background: linear-gradient(to right, rgba(255, 0, 0, 0.25), transparent);
+        opacity: 0;
+        transition: opacity .3s ease;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 20%;
+        height: 100%;
+        right: 0;
+        top: 0;
+        border-radius: 0 20px 20px 0;
+        background: linear-gradient(to left, rgba(255, 0, 0, 0.25), transparent);
+        opacity: 0;
+        transition: opacity .3s ease;
+    }
 }

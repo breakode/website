@@ -27,7 +27,10 @@ const app = {
         test: /\.(js|ts)x?$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react']
+          }
         }
       },
       {
@@ -69,7 +72,7 @@ const server = {
     filename: '[name].js'
   },
   resolve: {
-    extensions: ['.ts', '.tsx']
+    extensions: ['.ts', '.tsx', 'js']
   },
   externals: [nodeExternals()],
   node: {
@@ -83,7 +86,17 @@ const server = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.(js|ts)x?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react']
+          }
+        }
+      },
+      {
+        test: /\.(ts)x?$/,
         loader: 'ts-loader',
         options: {
           configFile: 'tsconfig.server.json'

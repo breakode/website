@@ -5,6 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
+import { HelmetProvider } from 'react-helmet-async';
 import App from '../src/App';
 
 const server = express();
@@ -22,12 +23,39 @@ const manifest = fs.readFileSync(
 const assets = JSON.parse(manifest);
 
 server.get('*', (req, res) => {
+  const helmetContext: any = {};
+  const helmet = helmetContext;
+
   const component = ReactDOMServer.renderToString(
     <StaticRouter location={req.url}>
-      <App />
+      <HelmetProvider context={helmetContext}>
+        <App />
+      </HelmetProvider>
     </StaticRouter>
   );
-  res.render('index', { assets, component, title: 'React SSR + Typescript' });
+  // console.log(helmet.helmet.title.toString());
+  //   const html = `
+  //   <html>
+  //   <head>
+  //     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  //     ${helmet.helmet.title.toString()}
+  //     ${helmet.helmet.meta.toString()}
+  //     ${helmet.helmet.link.toString()}
+  //   </head>
+  //     <div id="root">${component}</div>
+  //     <script defer="defer" src="${assets['app.js']}"></script>
+  //   <body>
+  // `;
+
+  // res.send(html);
+  res.render('index', {
+    assets,
+    component,
+    title: helmet.helmet.title.toString(),
+    meta: helmet.helmet.meta.toString(),
+    link: helmet.helmet.link.toString(),
+    script: helmet.helmet.script.toString()
+  });
 });
 
 console.clear();
